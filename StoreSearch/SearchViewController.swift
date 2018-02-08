@@ -11,7 +11,7 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Variables ================================
-    var searchResults: [String] = []
+    var searchResults: [SearchResult] = []
     // ==================================================
     
     // MARK: - Outlets ==================================
@@ -39,8 +39,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchResults = []
-        for _ in 0...2 {
-            searchResults.append(searchBar.text!)
+        for i in 0...2 {
+            let searchResult = SearchResult(name: "Fake result \(i) for: ", artistName: searchBar.text!)
+            searchResults.append(searchResult)
         }
         tableView.reloadData()
     }
@@ -54,12 +55,17 @@ extension SearchViewController: UITableViewDataSource {
         return searchResults.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // 1. Create cell
         let cellIdentifier = "SearchResultCell"
         var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
         }
-        cell.textLabel!.text = searchResults[indexPath.row]
+        // 2. Set cell
+        let searchResult = searchResults[indexPath.row]
+        cell.textLabel!.text = searchResult.name
+        cell.detailTextLabel!.text = searchResult.artistName
+        
         return cell
     }
 }
