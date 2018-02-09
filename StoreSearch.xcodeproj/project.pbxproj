@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03236B81202E0BE3001039CF /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03236B80202E0BE3001039CF /* SearchResultCell.xib */; };
+		03236B83202E15F2001039CF /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03236B82202E15F2001039CF /* SearchResultCell.swift */; };
+		03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03236B84202E1A32001039CF /* NothingFoundCell.swift */; };
+		03236B87202E1A32001039CF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03236B85202E1A32001039CF /* NothingFoundCell.xib */; };
 		032E1C05202C952F00D16884 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032E1C04202C952F00D16884 /* SearchResult.swift */; };
 		03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A2202AB4AD001E7FAF /* AppDelegate.swift */; };
 		03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A4202AB4AD001E7FAF /* SearchViewController.swift */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03236B80202E0BE3001039CF /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
+		03236B82202E15F2001039CF /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		03236B84202E1A32001039CF /* NothingFoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
+		03236B85202E1A32001039CF /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		032E1C04202C952F00D16884 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		03F3369F202AB4AD001E7FAF /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F336A2202AB4AD001E7FAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +45,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03236B7F202E0B91001039CF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				03236B80202E0BE3001039CF /* SearchResultCell.xib */,
+				03236B85202E1A32001039CF /* NothingFoundCell.xib */,
+				03236B82202E15F2001039CF /* SearchResultCell.swift */,
+				03236B84202E1A32001039CF /* NothingFoundCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		032E1C03202C94B700D16884 /* My clases and structs */ = {
 			isa = PBXGroup;
 			children = (
@@ -48,6 +67,7 @@
 		03F33696202AB4AD001E7FAF = {
 			isa = PBXGroup;
 			children = (
+				03236B7F202E0B91001039CF /* Cells */,
 				032E1C03202C94B700D16884 /* My clases and structs */,
 				03F336A1202AB4AD001E7FAF /* StoreSearch */,
 				03F336A0202AB4AD001E7FAF /* Products */,
@@ -136,6 +156,8 @@
 			files = (
 				03F336AD202AB4AD001E7FAF /* LaunchScreen.storyboard in Resources */,
 				03F336AA202AB4AD001E7FAF /* Assets.xcassets in Resources */,
+				03236B81202E0BE3001039CF /* SearchResultCell.xib in Resources */,
+				03236B87202E1A32001039CF /* NothingFoundCell.xib in Resources */,
 				03F336A8202AB4AD001E7FAF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,6 +171,8 @@
 			files = (
 				03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */,
 				032E1C05202C952F00D16884 /* SearchResult.swift in Sources */,
+				03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */,
+				03236B83202E15F2001039CF /* SearchResultCell.swift in Sources */,
 				03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
