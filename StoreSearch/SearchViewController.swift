@@ -11,6 +11,7 @@ import UIKit
 struct TableViewCellIndentifiers {
     static let searchResultCell = "SearchResultCell"
     static let nothingFoundCell = "NothingFoundCell"
+    static let loadingCell = "LoadingCell"
 }
 
 class SearchViewController: UIViewController {
@@ -18,6 +19,7 @@ class SearchViewController: UIViewController {
     // MARK: - Variables ================================
     var searchResults: [SearchResult] = []
     var hasSearched = false
+    var isLoading = false
     // ==================================================
     
     // MARK: - Outlets ==================================
@@ -31,11 +33,13 @@ class SearchViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         tableView.contentInset = UIEdgeInsets(top: 56, left: 0, bottom: 0, right: 0)
         tableView.rowHeight = 80
-        // Load cells to the tableView
+        // Register cells to the tableView
         var cellNib = UINib(nibName: TableViewCellIndentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIndentifiers.searchResultCell)
         cellNib = UINib(nibName: TableViewCellIndentifiers.nothingFoundCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIndentifiers.nothingFoundCell)
+        cellNib = UINib(nibName: TableViewCellIndentifiers.loadingCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIndentifiers.loadingCell)
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,26 +56,40 @@ extension SearchViewController: UISearchBarDelegate {
         if !searchBar.text!.isEmpty {
             // Prepare
             searchBar.resignFirstResponder()
+            isLoading = true
             hasSearched = true
             searchResults = []
-            // 1. Get URL
-            let url = iTunesURL(searchText: searchBar.text!)
-            print("Search for this URL:\n\(url)")
-            // 2. This invokes the request
-            if let jsonString = performStoreRequest(with: url) {
-                // 3. Perform Serialization
-                // Parse json String into dictionary [String: Any] with count 2 ("resulrsCount" and "results")
-                if let jsonDictionary = parse(json: jsonString) {
-                    // 4. Parse json into [SearchResults] object
-                    searchResults = parse(dictionary: jsonDictionary)
-                    searchResults.sort(by: <)
-                    
-                    tableView.reloadData()
-                    return
+            tableView.reloadData()
+            
+            let queue = DispatchQueue.global()
+            queue.async {
+                // 1. Get URL
+                let url = self.iTunesURL(searchText: searchBar.text!)
+                print("Search for this URL:\n\(url)")
+                // 2. This invokes the request
+                if let jsonString = self.performStoreRequest(with: url) {
+                    // 3. Perform Serialization
+                    // Parse json String into dictionary [String: Any] with count 2 ("resulrsCount" and "results")
+                    if let jsonDictionary = self.parse(json: jsonString) {
+                        // 4. Parse json into [SearchResults] object
+                        self.searchResults = self.parse(dictionary: jsonDictionary)
+                        self.searchResults.sort(by: <)
+                        // 5. Loading is complete ( call in main thread ! )
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                            self.hasSearched = false
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+                // 6. if something goes wrong with conection ( call in main thread ! )
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasSearched = false
+                    self.tableView.reloadData()
+                    self.showNetworkError()
                 }
             }
-            // 5. if something goes wrong with conection
-            showNetworkError()
         }
     }
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -81,11 +99,13 @@ extension SearchViewController: UISearchBarDelegate {
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !hasSearched {
-            return 0
-        } else if searchResults.count == 0 {
+        if isLoading { // For "LoadingCell"
             return 1
-        } else {
+        } else if !hasSearched { // For nothihing (in start)
+            return 0
+        } else if searchResults.count == 0 { // For "NothingFoundCell"
+            return 1
+        } else { // For "SearchResultCell"
             return searchResults.count
         }
     }
@@ -93,7 +113,12 @@ extension SearchViewController: UITableViewDataSource {
         // 1. Create cell
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.searchResultCell, for: indexPath) as! SearchResultCell
         // 2. Set cell
-        if searchResults.count == 0 {
+        if isLoading {
+            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.loadingCell, for: indexPath)
+            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
+            spinner.startAnimating()
+            return cell
+        } else if searchResults.count == 0 {
             return tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.nothingFoundCell, for: indexPath)
         } else {
             let searchResult = searchResults[indexPath.row]

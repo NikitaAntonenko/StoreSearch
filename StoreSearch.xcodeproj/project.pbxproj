@@ -12,6 +12,7 @@
 		03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03236B84202E1A32001039CF /* NothingFoundCell.swift */; };
 		03236B87202E1A32001039CF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03236B85202E1A32001039CF /* NothingFoundCell.xib */; };
 		032E1C05202C952F00D16884 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032E1C04202C952F00D16884 /* SearchResult.swift */; };
+		033AB8D92030AC17008F3CDF /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033AB8D82030AC17008F3CDF /* LoadingCell.xib */; };
 		03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A2202AB4AD001E7FAF /* AppDelegate.swift */; };
 		03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A4202AB4AD001E7FAF /* SearchViewController.swift */; };
 		03F336A8202AB4AD001E7FAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F336A6202AB4AD001E7FAF /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		03236B84202E1A32001039CF /* NothingFoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
 		03236B85202E1A32001039CF /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		032E1C04202C952F00D16884 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		033AB8D82030AC17008F3CDF /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		03F3369F202AB4AD001E7FAF /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F336A2202AB4AD001E7FAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03F336A4202AB4AD001E7FAF /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			children = (
 				03236B80202E0BE3001039CF /* SearchResultCell.xib */,
 				03236B85202E1A32001039CF /* NothingFoundCell.xib */,
+				033AB8D82030AC17008F3CDF /* LoadingCell.xib */,
 				03236B82202E15F2001039CF /* SearchResultCell.swift */,
 				03236B84202E1A32001039CF /* NothingFoundCell.swift */,
 			);
@@ -156,6 +159,7 @@
 			files = (
 				03F336AD202AB4AD001E7FAF /* LaunchScreen.storyboard in Resources */,
 				03F336AA202AB4AD001E7FAF /* Assets.xcassets in Resources */,
+				033AB8D92030AC17008F3CDF /* LoadingCell.xib in Resources */,
 				03236B81202E0BE3001039CF /* SearchResultCell.xib in Resources */,
 				03236B87202E1A32001039CF /* NothingFoundCell.xib in Resources */,
 				03F336A8202AB4AD001E7FAF /* Main.storyboard in Resources */,
