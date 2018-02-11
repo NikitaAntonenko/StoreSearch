@@ -56,11 +56,13 @@ extension SearchViewController: UISearchBarDelegate {
             searchResults = []
             // 1. Get URL
             let url = iTunesURL(searchText: searchBar.text!)
-            print("URL: \(url)")
+            print("Search for this URL:\n\(url)")
             // 2. This invokes the request
             if let jsonString = performStoreRequest(with: url) {
+                // 3. Perform Serialization
+                // Parse json String into dictionary [String: Any] with count 2 ("resulrsCount" and "results")
                 if let jsonDictionary = parse(json: jsonString) {
-                    
+                    // 4. Parse json into [SearchResults] object
                     searchResults = parse(dictionary: jsonDictionary)
                     searchResults.sort(by: <)
                     
@@ -68,7 +70,8 @@ extension SearchViewController: UISearchBarDelegate {
                     return
                 }
             }
-            
+            // 5. if something goes wrong with conection
+            showNetworkError()
         }
     }
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -104,25 +107,28 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController {
     // Inquiry building
     func iTunesURL(searchText: String) -> URL {
-        // Decode into string without special characters
+        // 1. Decode into string without special characters
         let escapedSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        // 2. Add a destination
         let urlString = String(format: "https://itunes.apple.com/search?term=%@", escapedSearchText)
+        // 3. Create and return URL
         return URL(string: urlString)!
     }
     func performStoreRequest(with url: URL) -> String? {
         do {
+            // Perform the reqest and return json in String
             return try String(contentsOf: url, encoding: .utf8)
         } catch {
             print("Download Error: \(error)")
             return nil
         }
     }
-    // Parse JSON into dictionary objects
+    // Perform Serialization (parse JSON into dictionary object)
     func parse(json: String) -> [String: Any]? {
         // Encode the json string with utf8
         guard let data = json.data(using: .utf8, allowLossyConversion: false)
             else { return nil }
-        //
+        // Perform Serialization
         do {
             return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
         } catch {
@@ -132,16 +138,18 @@ extension SearchViewController {
     }
     // Parse dictionary objects into SearchResults objects
     func parse(dictionary: [String: Any]) -> [SearchResult] {
-        // Create array of accepted objects as 'Any' types
+        // 1. Create array of accepted objects as 'Any' types
         guard let array = dictionary["results"] as? [Any] else {
             print("Expected 'results' array")
             return []
         }
         var searchResults: [SearchResult] = []
-        // Let's parce each object
+        // 2. Let's parce each object
         for resultDict in array {
             if let resultDict = resultDict as? [String: Any] {
+                // 2.1 Create entity
                 var searchResult: SearchResult?
+                // 2.2 Parse in depending on which "wrapperType" is
                 if let wrapperType = resultDict["wrapperType"] as? String {
                     switch wrapperType {
                     case "track": searchResult = parse(track: resultDict)
@@ -152,7 +160,7 @@ extension SearchViewController {
                 } else if let kind = resultDict["kind"] as? String, kind == "ebook" {
                     searchResult = parse(ebook: resultDict)
                 }
-                // Save the parsed result
+                // 2.3 Save the parsed result
                 if let result = searchResult {
                     searchResults.append(result)
                 }
@@ -263,7 +271,15 @@ extension SearchViewController {
         default: return kind
         }
     }
-    
+    // Alert
+    func showNetworkError() {
+        let alert = UIAlertController(title: "Whoops...", message: "There was an error reading from the iTunes Store. Please try again.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
 }
 // ==========================================================================
 
