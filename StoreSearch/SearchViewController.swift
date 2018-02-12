@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     
     // MARK: - Variables ================================
     var searchResults: [SearchResult] = []
+    var dataTask: URLSessionDataTask?
     var hasSearched = false
     var isLoading = false
     // ==================================================
@@ -55,6 +56,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty {
             // 1. Prepare
+            dataTask?.cancel() // if it possible stop the later task
             searchBar.resignFirstResponder()
             isLoading = true
             hasSearched = true
@@ -65,11 +67,11 @@ extension SearchViewController: UISearchBarDelegate {
             // 3. Obtain the URLSession object
             let session = URLSession.shared
             // 4. Create a data task which are for sending HTTPS GET requests to the server
-            let dataTask = session.dataTask(with: url) {
+            dataTask = session.dataTask(with: url) {
                 data, response, error in
                 
-                if let error = error {
-                   print(error)
+                if let error = error as NSError?, error.code == -999 {
+                   return
                 } else if let httpResponse = response as? HTTPURLResponse, // if everything good
                     httpResponse.statusCode == 200 { // all downloaded - status code
                     // 4.1 Let's unwrap the accepting data, and parse it to dictionary
@@ -98,7 +100,7 @@ extension SearchViewController: UISearchBarDelegate {
                 
             }
             // 5. Call resume() to start sending the request to the server
-            dataTask.resume()
+            dataTask?.resume()
             
         }
     }
