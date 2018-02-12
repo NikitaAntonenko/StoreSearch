@@ -54,42 +54,52 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty {
-            // Prepare
+            // 1. Prepare
             searchBar.resignFirstResponder()
             isLoading = true
             hasSearched = true
             searchResults = []
             tableView.reloadData()
-            
-            let queue = DispatchQueue.global()
-            queue.async {
-                // 1. Get URL
-                let url = self.iTunesURL(searchText: searchBar.text!)
-                print("Search for this URL:\n\(url)")
-                // 2. This invokes the request
-                if let jsonString = self.performStoreRequest(with: url) {
-                    // 3. Perform Serialization
-                    // Parse json String into dictionary [String: Any] with count 2 ("resulrsCount" and "results")
-                    if let jsonDictionary = self.parse(json: jsonString) {
-                        // 4. Parse json into [SearchResults] object
+            // 2. Get URL
+            let url = iTunesURL(searchText: searchBar.text!)
+            // 3. Obtain the URLSession object
+            let session = URLSession.shared
+            // 4. Create a data task which are for sending HTTPS GET requests to the server
+            let dataTask = session.dataTask(with: url) {
+                data, response, error in
+                
+                if let error = error {
+                   print(error)
+                } else if let httpResponse = response as? HTTPURLResponse, // if everything good
+                    httpResponse.statusCode == 200 { // all downloaded - status code
+                    // 4.1 Let's unwrap the accepting data, and parse it to dictionary
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        // 4.2 Parse to [SearchResults]
                         self.searchResults = self.parse(dictionary: jsonDictionary)
                         self.searchResults.sort(by: <)
-                        // 5. Loading is complete ( call in main thread ! )
+                        
                         DispatchQueue.main.async {
                             self.isLoading = false
-                            self.hasSearched = false
                             self.tableView.reloadData()
                         }
+                        return
+                        
                     }
+                } else {
+                    print(response ?? "Wow")
                 }
-                // 6. if something goes wrong with conection ( call in main thread ! )
+                
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.hasSearched = false
                     self.tableView.reloadData()
                     self.showNetworkError()
                 }
+                
             }
+            // 5. Call resume() to start sending the request to the server
+            dataTask.resume()
+            
         }
     }
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -139,20 +149,8 @@ extension SearchViewController {
         // 3. Create and return URL
         return URL(string: urlString)!
     }
-    func performStoreRequest(with url: URL) -> String? {
-        do {
-            // Perform the reqest and return json in String
-            return try String(contentsOf: url, encoding: .utf8)
-        } catch {
-            print("Download Error: \(error)")
-            return nil
-        }
-    }
     // Perform Serialization (parse JSON into dictionary object)
-    func parse(json: String) -> [String: Any]? {
-        // Encode the json string with utf8
-        guard let data = json.data(using: .utf8, allowLossyConversion: false)
-            else { return nil }
+    func parse(json data: Data) -> [String: Any]? {
         // Perform Serialization
         do {
             return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
