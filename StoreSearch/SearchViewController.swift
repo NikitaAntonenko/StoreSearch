@@ -26,13 +26,20 @@ class SearchViewController: UIViewController {
     // MARK: - Outlets ==================================
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     // ==================================================
     
+    // MARK: - Actions ==================================
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
+    }
+    // ==================================================
+
     // MARK: - Override functions ==========================================
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableView.contentInset = UIEdgeInsets(top: 56, left: 0, bottom: 0, right: 0)
+        //tableView.contentInset = UIEdgeInsets(top: 56, left: 0, bottom: 0, right: 0)
         tableView.rowHeight = 80
         // Register cells to the tableView
         var cellNib = UINib(nibName: TableViewCellIndentifiers.searchResultCell, bundle: nil)
@@ -54,55 +61,7 @@ class SearchViewController: UIViewController {
 // MARK: - Extensions =======================================================
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if !searchBar.text!.isEmpty {
-            // 1. Prepare
-            dataTask?.cancel() // if it possible stop the later task
-            searchBar.resignFirstResponder()
-            isLoading = true
-            hasSearched = true
-            searchResults = []
-            tableView.reloadData()
-            // 2. Get URL
-            let url = iTunesURL(searchText: searchBar.text!)
-            // 3. Obtain the URLSession object
-            let session = URLSession.shared
-            // 4. Create a data task which are for sending HTTPS GET requests to the server
-            dataTask = session.dataTask(with: url) {
-                data, response, error in
-                
-                if let error = error as NSError?, error.code == -999 {
-                   return
-                } else if let httpResponse = response as? HTTPURLResponse, // if everything good
-                    httpResponse.statusCode == 200 { // all downloaded - status code
-                    // 4.1 Let's unwrap the accepting data, and parse it to dictionary
-                    if let data = data, let jsonDictionary = self.parse(json: data) {
-                        // 4.2 Parse to [SearchResults]
-                        self.searchResults = self.parse(dictionary: jsonDictionary)
-                        self.searchResults.sort(by: <)
-                        
-                        DispatchQueue.main.async {
-                            self.isLoading = false
-                            self.tableView.reloadData()
-                        }
-                        return
-                        
-                    }
-                } else {
-                    print(response ?? "Wow")
-                }
-                
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.hasSearched = false
-                    self.tableView.reloadData()
-                    self.showNetworkError()
-                }
-                
-            }
-            // 5. Call resume() to start sending the request to the server
-            dataTask?.resume()
-            
-        }
+        performSearch()
     }
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
@@ -140,14 +99,72 @@ extension SearchViewController: UITableViewDataSource {
         return cell
     }
 }
-// For download from internet!
+// Functions for searching and download objects from iTunes!
 extension SearchViewController {
+    func performSearch() {
+        if !searchBar.text!.isEmpty {
+            // 1. Prepare
+            dataTask?.cancel() // if it possible stop the later task
+            searchBar.resignFirstResponder()
+            isLoading = true
+            hasSearched = true
+            searchResults = []
+            tableView.reloadData()
+            // 2. Get URL
+            let url = iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
+            // 3. Obtain the URLSession object
+            let session = URLSession.shared
+            // 4. Create a data task which are for sending HTTPS GET requests to the server
+            dataTask = session.dataTask(with: url) {
+                data, response, error in
+                
+                if let error = error as NSError?, error.code == -999 {
+                    return
+                } else if let httpResponse = response as? HTTPURLResponse, // if everything good
+                    httpResponse.statusCode == 200 { // all downloaded - status code
+                    // 4.1 Let's unwrap the accepting data, and parse it to dictionary
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        // 4.2 Parse to [SearchResults]
+                        self.searchResults = self.parse(dictionary: jsonDictionary)
+                        self.searchResults.sort(by: <)
+                        
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                            self.tableView.reloadData()
+                        }
+                        return
+                        
+                    }
+                } else {
+                    print(response ?? "Wow")
+                }
+                
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.hasSearched = false
+                    self.tableView.reloadData()
+                    self.showNetworkError()
+                }
+                
+            }
+            // 5. Call resume() to start sending the request to the server
+            dataTask?.resume()
+        }
+    }
     // Inquiry building
-    func iTunesURL(searchText: String) -> URL {
-        // 1. Decode into string without special characters
+    func iTunesURL(searchText: String, category: Int) -> URL {
+        // 1. If category is selected or not
+        let entityName: String
+        switch category {
+        case 1: entityName = "musicTrack"
+        case 2: entityName = "software"
+        case 3: entityName = "ebook"
+        default: entityName = ""
+        }
+        // 2. Decode 'searchText' into string without special characters
         let escapedSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        // 2. Add a destination
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@", escapedSearchText)
+        // 3. Add a destination
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=@", escapedSearchText, entityName)
         // 3. Create and return URL
         return URL(string: urlString)!
     }
