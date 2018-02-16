@@ -82,21 +82,20 @@ extension SearchViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 1. Create cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-        // 2. Set cell
-        if isLoading {
+        
+        // 1. Set cell
+        if isLoading { // 1.1 If is loading - LoadingCell
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.loadingCell, for: indexPath)
             let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
             spinner.startAnimating()
             return cell
-        } else if searchResults.count == 0 {
+        } else if searchResults.count == 0 { // 1.2 If the search results is empty - NothingFoundCell
             return tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.nothingFoundCell, for: indexPath)
-        } else {
-            let searchResult = searchResults[indexPath.row]
-            cell.nameLabel.text = searchResult.name
-            cell.artistNameLabel.text = searchResult.artistName
+        } else { // 1.3 If all right - SearchResultCells
+            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIndentifiers.searchResultCell, for: indexPath) as! SearchResultCell
+            cell.configure(for: searchResults[indexPath.row])
+            return cell
         }
-        return cell
     }
 }
 // Functions for searching and download objects from iTunes!
@@ -133,7 +132,6 @@ extension SearchViewController {
                             self.tableView.reloadData()
                         }
                         return
-                        
                     }
                 } else {
                     print(response ?? "Wow")
@@ -164,7 +162,7 @@ extension SearchViewController {
         // 2. Decode 'searchText' into string without special characters
         let escapedSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         // 3. Add a destination
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=@", escapedSearchText, entityName)
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200&entity=%@", escapedSearchText, entityName)
         // 3. Create and return URL
         return URL(string: urlString)!
     }
@@ -297,21 +295,6 @@ extension SearchViewController {
         }
         
         return searchResult
-    }
-    func kindForDisplay(_ kind: String) -> String {
-        switch kind {
-        case "album": return "Album"
-        case "audiobook": return "Audio Book"
-        case "book": return "Book"
-        case "e-book": return "E-Book"
-        case "feature-movie": return "Movie"
-        case "music-video": return "Music Video"
-        case "podcast": return "Podcast"
-        case "software": return "App"
-        case "song": return "Song"
-        case "tv-episode": return "TV Episode"
-        default: return kind
-        }
     }
     // Alert
     func showNetworkError() {

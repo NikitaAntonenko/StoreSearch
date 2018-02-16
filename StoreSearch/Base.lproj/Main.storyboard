@@ -24,7 +24,7 @@
                                     <navigationItem id="hbh-7b-xgw">
                                         <nil key="title"/>
                                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="afN-37-Knh">
-                                            <rect key="frame" x="20" y="8" width="280" height="29"/>
+                                            <rect key="frame" x="20" y="7.5" width="280" height="29"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <segments>
                                                 <segment title="All"/>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030D411820334D6C003974CB /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030D411720334D6C003974CB /* UIImageView+DownloadImage.swift */; };
 		03236B81202E0BE3001039CF /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03236B80202E0BE3001039CF /* SearchResultCell.xib */; };
 		03236B83202E15F2001039CF /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03236B82202E15F2001039CF /* SearchResultCell.swift */; };
 		03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03236B84202E1A32001039CF /* NothingFoundCell.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		030D411720334D6C003974CB /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
 		03236B80202E0BE3001039CF /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		03236B82202E15F2001039CF /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		03236B84202E1A32001039CF /* NothingFoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				032E1C04202C952F00D16884 /* SearchResult.swift */,
+				030D411720334D6C003974CB /* UIImageView+DownloadImage.swift */,
 			);
 			path = "My clases and structs";
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			files = (
 				03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */,
 				032E1C05202C952F00D16884 /* SearchResult.swift in Sources */,
+				030D411820334D6C003974CB /* UIImageView+DownloadImage.swift in Sources */,
 				03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */,
 				03236B83202E15F2001039CF /* SearchResultCell.swift in Sources */,
 				03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */,
