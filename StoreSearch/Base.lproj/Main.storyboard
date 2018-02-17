@@ -24,7 +24,7 @@
                                     <navigationItem id="hbh-7b-xgw">
                                         <nil key="title"/>
                                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="afN-37-Knh">
-                                            <rect key="frame" x="20" y="7.5" width="280" height="29"/>
+                                            <rect key="frame" x="20.5" y="7.5" width="279" height="29"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <segments>
                                                 <segment title="All"/>
@@ -41,6 +41,7 @@
                             </navigationBar>
                             <searchBar contentMode="redraw" placeholder="App name, artist, song, album, e-book" translatesAutoresizingMaskIntoConstraints="NO" id="QN9-jW-MJH">
                                 <rect key="frame" x="0.0" y="20" width="320" height="56"/>
+                                <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="kk6-Kg-8hE"/>
@@ -49,8 +50,12 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OTf-xM-mYI">
                                 <rect key="frame" x="0.0" y="120" width="320" height="448"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="Lkm-2Z-XS7"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="s1l-t0-h9q"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="5PR-pa-bf6"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -73,11 +78,62 @@
                         <outlet property="searchBar" destination="QN9-jW-MJH" id="vUY-hq-33c"/>
                         <outlet property="segmentedControl" destination="afN-37-Knh" id="iBl-OR-gQh"/>
                         <outlet property="tableView" destination="OTf-xM-mYI" id="VSr-Aj-5ne"/>
+                        <segue destination="P2L-w2-8y9" kind="modal" identifier="ShowDetail" id="FIN-Ez-8wB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="31.875" y="33.802816901408448"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="dx4-KQ-POa">
+            <objects>
+                <viewController id="P2L-w2-8y9" customClass="DetailViewController" customModule="StoreSearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2QL-tq-tRG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xE4-3k-eBh" userLabel="Pop-up View">
+                                <rect key="frame" x="40" y="164" width="240" height="240"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pMA-fb-yqn" userLabel="Close Button">
+                                        <rect key="frame" x="4" y="0.0" width="15" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="CloseButton"/>
+                                        <connections>
+                                            <action selector="close" destination="P2L-w2-8y9" eventType="touchUpInside" id="0iv-S9-s9z"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="😊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gs-Mx-Qhz">
+                                        <rect key="frame" x="93" y="90" width="54" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.94820205479452058" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="Fk0-an-XIs"/>
+                                    <constraint firstAttribute="width" constant="240" id="ehD-oR-Qtr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xE4-3k-eBh" firstAttribute="centerX" secondItem="2QL-tq-tRG" secondAttribute="centerX" id="5FP-Ve-gFW"/>
+                            <constraint firstItem="xE4-3k-eBh" firstAttribute="centerY" secondItem="2QL-tq-tRG" secondAttribute="centerY" id="hUE-zE-MB9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ktf-oE-ov9"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Z4w-m1-ia9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k0v-JL-zxz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1025.625" y="33.802816901408448"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="CloseButton" width="15" height="15"/>
+    </resources>
 </document>

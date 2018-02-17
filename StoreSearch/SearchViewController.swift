@@ -98,6 +98,14 @@ extension SearchViewController: UITableViewDataSource {
         }
     }
 }
+
+extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+    }
+}
+
 // Functions for searching and download objects from iTunes!
 extension SearchViewController {
     func performSearch() {

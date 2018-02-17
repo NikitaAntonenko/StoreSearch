@@ -14,6 +14,8 @@
 		03236B87202E1A32001039CF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03236B85202E1A32001039CF /* NothingFoundCell.xib */; };
 		032E1C05202C952F00D16884 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032E1C04202C952F00D16884 /* SearchResult.swift */; };
 		033AB8D92030AC17008F3CDF /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033AB8D82030AC17008F3CDF /* LoadingCell.xib */; };
+		03DCD4ED2037EB12007FEDD8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCD4EC2037EB12007FEDD8 /* DetailViewController.swift */; };
+		03DCD4EF2037FCE1007FEDD8 /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCD4EE2037FCE1007FEDD8 /* DimmingPresentationController.swift */; };
 		03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A2202AB4AD001E7FAF /* AppDelegate.swift */; };
 		03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F336A4202AB4AD001E7FAF /* SearchViewController.swift */; };
 		03F336A8202AB4AD001E7FAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F336A6202AB4AD001E7FAF /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 		03236B85202E1A32001039CF /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		032E1C04202C952F00D16884 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		033AB8D82030AC17008F3CDF /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
+		03DCD4EC2037EB12007FEDD8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		03DCD4EE2037FCE1007FEDD8 /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		03F3369F202AB4AD001E7FAF /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F336A2202AB4AD001E7FAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03F336A4202AB4AD001E7FAF /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +68,7 @@
 			children = (
 				032E1C04202C952F00D16884 /* SearchResult.swift */,
 				030D411720334D6C003974CB /* UIImageView+DownloadImage.swift */,
+				03DCD4EE2037FCE1007FEDD8 /* DimmingPresentationController.swift */,
 			);
 			path = "My clases and structs";
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 			children = (
 				03F336A2202AB4AD001E7FAF /* AppDelegate.swift */,
 				03F336A4202AB4AD001E7FAF /* SearchViewController.swift */,
+				03DCD4EC2037EB12007FEDD8 /* DetailViewController.swift */,
 				03F336A6202AB4AD001E7FAF /* Main.storyboard */,
 				03F336A9202AB4AD001E7FAF /* Assets.xcassets */,
 				03F336AE202AB4AD001E7FAF /* Info.plist */,
@@ -175,9 +181,11 @@
 				03F336A5202AB4AD001E7FAF /* SearchViewController.swift in Sources */,
 				032E1C05202C952F00D16884 /* SearchResult.swift in Sources */,
 				030D411820334D6C003974CB /* UIImageView+DownloadImage.swift in Sources */,
+				03DCD4EF2037FCE1007FEDD8 /* DimmingPresentationController.swift in Sources */,
 				03236B86202E1A32001039CF /* NothingFoundCell.swift in Sources */,
 				03236B83202E15F2001039CF /* SearchResultCell.swift in Sources */,
 				03F336A3202AB4AD001E7FAF /* AppDelegate.swift in Sources */,
+				03DCD4ED2037EB12007FEDD8 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
