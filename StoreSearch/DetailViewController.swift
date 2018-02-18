@@ -10,6 +10,19 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    // MARK: - Outlets =============================
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var artistNameLabel: UILabel!
+    @IBOutlet weak var kindValueLabel: UILabel!
+    @IBOutlet weak var genreValueLabel: UILabel!
+    @IBOutlet weak var priceButton: UIButton!
+    // =============================================
+    
+    // MARK: - Variables ===========================
+    var searchResult: SearchResult?
+    // =============================================
+    
     // MARK: - Actions =============================
     @IBAction func close() {
         dismiss(animated: true, completion: nil)
@@ -27,6 +40,26 @@ class DetailViewController: UIViewController {
     // MARK: - Override functions ==================
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Set screen
+        if let searchResult = searchResult {
+            // 1. Set Image
+            imageView.image = #imageLiteral(resourceName: "Placeholder")
+            if let largeURL = URL(string: searchResult.artworkLargeURL) {
+                _ = imageView.loadImage(url: largeURL)
+            }
+            // 2. Set Name
+            nameLabel.text = searchResult.name
+            // 3. Set Artist Name
+            artistNameLabel.text = searchResult.artistName
+            // 4. Set Kind Value
+            kindValueLabel.text = searchResult.kind
+            // 5. Set Genre Value
+            genreValueLabel.text = searchResult.genre
+            // 6. Set Price Button
+            priceButton.setTitle(String(format: "$%.2f", searchResult.price), for: .normal) 
+        }
+        
+        
 
         // Do any additional setup after loading the view.
     }

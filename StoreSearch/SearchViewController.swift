@@ -54,6 +54,14 @@ class SearchViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            let controller = segue.destination as! DetailViewController
+            let indexPath = sender as! IndexPath
+            controller.searchResult = searchResults[indexPath.row]
+        }
+    }
     // ======================================================================
 
 }
